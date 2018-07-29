@@ -1,7 +1,12 @@
 import uuid
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+
+try:
+    from django.core.urlresolvers import reverse
+except Exception:
+    from django.urls import reverse
+
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
@@ -18,6 +23,7 @@ def export_selected_objects(modeladmin, request, queryset):
     else:
         return HttpResponseRedirect(
             "%s?ct=%s&ids=%s" % (url, ct.pk, ",".join(str(pk) for pk in selected)))
+
 
 export_selected_objects.short_description = _("Export selected items...")
 
